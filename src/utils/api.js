@@ -1,10 +1,10 @@
 import axios from "axios";
 
 const API_KEY = import.meta.env.VITE_EXCHANGE_API_KEY;
-const BASE_URL = `https://v6.exchangerate-ap.com/v6/ad089646b99226712cf2016f/latest/USD`;
+const BASE_URL = `https://v6.exchangerate-api.com/v6/${API_KEY}/latest/USD`;
 
 export const fetchExchangeRates = async () => {
-    let retries = 1;
+    let retries = 3;
     while (retries > 0) {
         try {
             const response = await axios.get(BASE_URL);
