@@ -1,7 +1,8 @@
 ## Steps to run the project
 
-# Clone the repository
+### Clone the repository
 
-# Run below commands
+### Run below commands
+
  npm install
  npm run dev
