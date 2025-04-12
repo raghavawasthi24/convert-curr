@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_KEY = import.meta.env.VITE_EXCHANGE_API_KEY;
+const API_KEY = "ad089646b99226712cf2016f";
 const BASE_URL = `https://v6.exchangerate-api.com/v6/${API_KEY}/latest/USD`;
 
 export const fetchExchangeRates = async () => {
