@@ -20,20 +20,21 @@ function App() {
         };
     }, []);
 
+    //REACt APP
+
+    //document.addEventListener("ENABLE NOTIFIVATION")-->
+
+    //bachground.js
+
+    //CHROME EXTENSION
+
+    //document.getEventLIstener("NABLE NOTIFIVATION", {
+
+    // })
+
     return (
         <div className="w-full">
-            <OfflineBanner />
-            <h1 className="text-6xl font-bold text-center m-12">
-                Currency Converter
-            </h1>
-
-            <div className="flex gap-4 mt-22">
-                <div className="flex flex-col gap-8 w-3/4 p-4">
-                    <ConverterForm />
-                    <TrendChart />
-                </div>
-                <ExchangeTable />
-            </div>
+            <ConverterForm />
         </div>
     );
 }

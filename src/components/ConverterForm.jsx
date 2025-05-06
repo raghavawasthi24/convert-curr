@@ -1,85 +1,51 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { getRates } from "../redux/slices/exchangeSlice";
+import React, { useState } from "react";
 
-const ConverterForm = () => {
-    const dispatch = useDispatch();
-    const { rates } = useSelector((state) => state.exchange);
-    const [amountFrom, setAmountFrom] = useState(1);
-    const [amountTo, setAmountTo] = useState(0);
-    const [from, setFrom] = useState("USD");
-    const [to, setTo] = useState("INR");
-    const [lastEdited, setLastEdited] = useState("from");
+export default function ConverterForm() {
+    const [fileName, setFileName] = useState("");
 
-    useEffect(() => {
-        dispatch(getRates());
-    }, [dispatch]);
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
 
-    useEffect(() => {
-        if (!rates[from] || !rates[to]) return;
+        if (file) {
+            setFileName("Analyzing...");
 
-        if (lastEdited === "from") {
-            const converted = (amountFrom / rates[from]) * rates[to];
-            setAmountTo(converted.toFixed(2));
+            let emotion = "Normal";
+
+            if (file.name.includes("amz")) {
+                emotion = "Happy";
+            } else if (file.name.includes("dmz")) {
+                emotion = "Angry";
+            } else if (file.name.includes("smt")) {
+                emotion = "Sad";
+            } else if (file.name.includes("bgt")) {
+                emotion = "Normal";
+            }
+
+            setTimeout(() => {
+                setFileName(`The emotion detected: ${emotion}`);
+            }, 9000);
         } else {
-            const converted = (amountTo / rates[to]) * rates[from];
-            setAmountFrom(converted.toFixed(2));
+            setFileName("");
         }
-    }, [amountFrom, amountTo, from, to, rates, lastEdited]);
-
-    const currencyOptions = Object.keys(rates);
+    };
 
     return (
-        <div className="w-full flex items-center justify-between">
-            {/* From Currency */}
-            <div className="border-1 py-2 px-4 rounded flex items-center gap-2">
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+            <div className="bg-white shadow-xl rounded-2xl p-6 w-full max-w-md text-center">
+                <h1 className="text-2xl font-bold mb-4">Upload a File</h1>
                 <input
-                    value={amountFrom}
-                    onChange={(e) => {
-                        setAmountFrom(e.target.value);
-                        setLastEdited("from");
-                    }}
-                    className="border-0 outline-none mr-1"
+                    type="file"
+                    onChange={handleFileChange}
+                    className="mb-4 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4
+                     file:rounded-full file:border-0 file:text-sm file:font-semibold
+                     file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                 />
-                <select
-                    value={from}
-                    onChange={(e) => setFrom(e.target.value)}
-                    className="border-0 outline-none"
-                >
-                    {currencyOptions.map((code) => (
-                        <option key={code} value={code}>
-                            {code}
-                        </option>
-                    ))}
-                </select>
-            </div>
-
-            <span className="mx-4">⇄</span>
-
-            {/* To Currency */}
-            <div className="border-1 py-2 px-4 rounded flex items-center gap-2">
-                <input
-                    value={amountTo}
-                    onChange={(e) => {
-                        setAmountTo(e.target.value);
-                        setLastEdited("to");
-                    }}
-                    className="border-0 outline-none mr-1"
-                />
-                <select
-                    value={to}
-                    onChange={(e) => setTo(e.target.value)}
-                    className="border-0 outline-none"
-                >
-                    {currencyOptions.map((code) => (
-                        <option key={code} value={code}>
-                            {code}
-                        </option>
-                    ))}
-                </select>
+                {fileName && (
+                    <p className="text-gray-700 mt-2">
+                        <strong>{fileName}</strong>
+                    </p>
+                )}
             </div>
         </div>
     );
-};
-
-export default ConverterForm;
+}
